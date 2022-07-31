@@ -3,6 +3,7 @@ import Banner from './Banner';
 import Info from '../Info/Info';
 import Services from './Services';
 import MakeAppoinment from '../MakeAppoinment/MakeAppoinment';
+import Testomonials from './Testomonials';
 const Home = () => {
       return (
             <div className='px-12'>
@@ -10,6 +11,7 @@ const Home = () => {
                <Info></Info>
                <Services></Services>
                <MakeAppoinment></MakeAppoinment>
+               <Testomonials></Testomonials>
                   
             </div>
       );
