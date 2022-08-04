@@ -9,8 +9,8 @@ const AppointmentBanner = ({date,setDate}) => {
       return (
             <div
             style={{background:`url(${bg})`,backgroundSize:'cover'}}
-             class="hero min-h-screen ">
-                  <div class="hero-content flex-col lg:flex-row-reverse">
+             className="hero min-h-screen ">
+                  <div className="hero-content flex-col lg:flex-row-reverse">
                         <img src={chair} className="w-1/3"  alt='Dentist chair' />
                         <div >
                               <DayPicker 

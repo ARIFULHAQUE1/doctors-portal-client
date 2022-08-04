@@ -6,6 +6,8 @@ import Home from './pages/Home/Home';
 import About from './pages/About/About';
 import Footer from './pages/Shared/Footer/Footer';
 import Appointments from './pages/Appointments/Appointments';
+import Login from './pages/Login/Login';
+import SignUp from './pages/Login/SignUp';
 function App() {
   return (
     <div >
@@ -14,6 +16,8 @@ function App() {
     <Route path='/' element={<Home></Home>}></Route>
     <Route path='about' element={<About></About>}></Route>
     <Route path='/appointment' element={<Appointments></Appointments>}></Route>
+    <Route path='/login' element={<Login></Login>}></Route>
+    <Route path='/signUp' element={<SignUp></SignUp>}></Route>
     </Routes>
     <Footer></Footer>
     </div>
