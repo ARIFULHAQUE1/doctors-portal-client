@@ -1,13 +1,13 @@
 import React from 'react';
 import { useForm } from "react-hook-form";
-import { useCreateUserWithEmailAndPassword, useSignInWithEmailAndPassword, useSignInWithGoogle } from 'react-firebase-hooks/auth'
+import { useCreateUserWithEmailAndPassword, useSignInWithEmailAndPassword, useSignInWithGoogle, useUpdateProfile } from 'react-firebase-hooks/auth'
 import auth from '../../firebase.init';
 import Loading from '../Shared/Loading'
-import { Link } from 'react-router-dom';
+import { Link, Navigate, useNavigate } from 'react-router-dom';
 const SignUp = () => {
       const [signInWithGoogle, gUser, gLoading, gError] = useSignInWithGoogle(auth);
       const { register, formState: { errors }, handleSubmit } = useForm();
-      console.log(gUser)
+     
 
       const [
             createUserWithEmailAndPassword,
@@ -17,17 +17,23 @@ const SignUp = () => {
           ] = useCreateUserWithEmailAndPassword (auth);
           console.log(user)
 
+      //     update user 
+      const [updateProfile, updating, updateError] = useUpdateProfile(auth);
+            const navigate = useNavigate()
           let signInError;
 
-          if ( true || error || gError) {
-             signInError = <p className='text-red-600'><small>{error?.message || gError?.message}</small></p>
+          if (  error || gError || updateError) {
+             signInError = <p className='text-red-600'><small>{error?.message || gError?.message || updateError.message}</small></p>
           }
 
-          if (loading || gLoading) {
+          if (loading || gLoading || updating) {
             return <Loading></Loading>
           }
-          const onSubmit = (data) => {
-            createUserWithEmailAndPassword(data.email, data.password)
+          const onSubmit = async data=> {
+           await createUserWithEmailAndPassword(data.email, data.password);
+           await updateProfile({ displayName:data.name });
+           navigate('/appointment')
+           alert('profile Updated')
             console.log(data)
       }
       return (
@@ -38,9 +44,9 @@ const SignUp = () => {
                         <form onSubmit={handleSubmit(onSubmit)}>
 
 
-                              <div class="form-control w-full max-w-xs">
-                                    <label class="label">
-                                          <span class="label-text">Name</span>
+                              <div className="form-control w-full max-w-xs">
+                                    <label className="label">
+                                          <span className="label-text">Name</span>
 
                                     </label>
                                     <input
@@ -52,16 +58,16 @@ const SignUp = () => {
                                                
                                           })}
 
-                                          type="text" placeholder="Enter Name" class="input input-bordered w-full max-w-xs" />
+                                          type="text" placeholder="Enter Name" className="input input-bordered w-full max-w-xs" />
 
-                                    <label class="label">
-                                          {errors.name?.type === 'required' && <span class="label-text-alt text-red-600">{errors.name.message}</span>}
+                                    <label className="label">
+                                          {errors.name?.type === 'required' && <span className="label-text-alt text-red-600">{errors.name.message}</span>}
                                           
                                     </label>
                               </div>
-                              <div class="form-control w-full max-w-xs">
-                                    <label class="label">
-                                          <span class="label-text">Email</span>
+                              <div className="form-control w-full max-w-xs">
+                                    <label className="label">
+                                          <span className="label-text">Email</span>
 
                                     </label>
                                     <input
@@ -76,17 +82,17 @@ const SignUp = () => {
                                                 }
                                           })}
 
-                                          type="email" placeholder="Enter Email" class="input input-bordered w-full max-w-xs" />
+                                          type="email" placeholder="Enter Email" className="input input-bordered w-full max-w-xs" />
 
-                                    <label class="label">
-                                          {errors.email?.type === 'required' && <span class="label-text-alt text-red-600">{errors.email.message}</span>}
-                                          {errors.email?.type === 'pattern' && <span class="label-text-alt text-red-600">{errors.email.message}</span>}
+                                    <label className="label">
+                                          {errors.email?.type === 'required' && <span className="label-text-alt text-red-600">{errors.email.message}</span>}
+                                          {errors.email?.type === 'pattern' && <span className="label-text-alt text-red-600">{errors.email.message}</span>}
                                     </label>
                               </div>
                               {/* password input */}
-                              <div class="form-control w-full max-w-xs">
-                                    <label class="label">
-                                          <span class="label-text">Password</span>
+                              <div className="form-control w-full max-w-xs">
+                                    <label className="label">
+                                          <span className="label-text">Password</span>
 
                                     </label>
 
@@ -103,14 +109,14 @@ const SignUp = () => {
                                                 }
                                           })}
 
-                                          type="password" placeholder="Enter Password" class="input input-bordered w-full max-w-xs"
+                                          type="password" placeholder="Enter Password" className="input input-bordered w-full max-w-xs"
 
                                     />
 
 
-                                    <label class="label">
-                                          {errors.password?.type === 'required' && <span class="label-text-alt text-red-600">{errors.password.message}</span>}
-                                          {errors.password?.type === 'minLength' && <span class="label-text-alt text-red-600">{errors.password.message}</span>}
+                                    <label className="label">
+                                          {errors.password?.type === 'required' && <span className="label-text-alt text-red-600">{errors.password.message}</span>}
+                                          {errors.password?.type === 'minLength' && <span className="label-text-alt text-red-600">{errors.password.message}</span>}
                                     </label>
                               </div>
 

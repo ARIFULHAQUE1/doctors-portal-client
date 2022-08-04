@@ -17,7 +17,7 @@ const AvailableAppointment = ({appointment,setService}) => {
               <label
               onClick={()=>setService(appointment)}
                disabled={slots.length===0}
-               for="booking-modal" 
+               htmlFor="booking-modal" 
                className="btn bg-gradient-to-r from-primary to-secondary text-white uppercase border-none">Get Appointment</label>
                
               </div>
